@@ -1,6 +1,6 @@
 package by.epamtc.arrays.task1.entity;
 
-import by.epamtc.arrays.task1.exception.InvalidArgumentException;
+import by.epamtc.arrays.exception.InvalidArgumentException;
 import by.epamtc.arrays.task1.util.IntegerArrayUtils;
 import by.epamtc.arrays.task1.util.RandomUtils;
 import org.junit.jupiter.api.AfterEach;

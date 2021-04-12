@@ -1,4 +1,4 @@
-package by.epamtc.arrays.task1.exception;
+package by.epamtc.arrays.exception;
 
 public class IncompatibleStateException extends Exception {
 

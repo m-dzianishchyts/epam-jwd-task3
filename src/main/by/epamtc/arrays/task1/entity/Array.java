@@ -1,7 +1,7 @@
 package by.epamtc.arrays.task1.entity;
 
-import by.epamtc.arrays.task1.exception.IncompatibleStateException;
-import by.epamtc.arrays.task1.exception.InvalidArgumentException;
+import by.epamtc.arrays.exception.IncompatibleStateException;
+import by.epamtc.arrays.exception.InvalidArgumentException;
 import by.epamtc.arrays.task1.util.DataScanningUtils;
 import by.epamtc.arrays.task1.util.RandomUtils;
 
@@ -45,7 +45,7 @@ public class Array implements Comparable<Array> {
     }
 
     public Array(int[] content) throws InvalidArgumentException {
-        checkContent(content);
+        checkContentOnNull(content);
         this.content = content;
     }
 
@@ -94,11 +94,11 @@ public class Array implements Comparable<Array> {
     }
 
     public void setContent(int[] content) throws InvalidArgumentException {
-        checkContent(content);
+        checkContentOnNull(content);
         this.content = content;
     }
 
-    private void checkContent(int[] content) throws InvalidArgumentException {
+    private void checkContentOnNull(int[] content) throws InvalidArgumentException {
         if (content == null) {
             throw new InvalidArgumentException("Array cannot be null.");
         }
