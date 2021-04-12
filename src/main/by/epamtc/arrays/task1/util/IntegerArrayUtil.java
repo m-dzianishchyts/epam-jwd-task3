@@ -2,7 +2,6 @@ package by.epamtc.arrays.task1.util;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -74,6 +73,16 @@ public final class IntegerArrayUtil {
         List<Integer> result = new ArrayList<>();
         for (var value : array) {
             if (fibonacciNumbersCache.contains(value)) {
+                result.add(value);
+            }
+        }
+        return result;
+    }
+
+    public static List<Integer> extractPrimeNumbers(int[] array) {
+        List<Integer> result = new ArrayList<>();
+        for (var value : array) {
+            if (IntegerUtil.isPrime(value)) {
                 result.add(value);
             }
         }
