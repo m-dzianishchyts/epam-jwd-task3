@@ -59,7 +59,7 @@ public class SortingAlgorithmsTest {
 
     @RepeatedTest(SORTING_TESTS_AMOUNT)
     void doRadixSortTest() {
-        IntegerArrayUtil.doRadixSort(array);
+        IntegerArrayUtil.doRadixSort(array.getContent());
         assertArrayEquals(expectedSortedArrayContent, array.getContent());
     }
 }

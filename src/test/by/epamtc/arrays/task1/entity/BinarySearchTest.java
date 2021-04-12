@@ -22,7 +22,7 @@ public class BinarySearchTest {
         int maxInitialValue = (int) Math.pow(2, 10);
         array = new Array(arraySize);
         array.initByRandomValues(minInitialValue, maxInitialValue);
-        IntegerArrayUtil.doRadixSort(array);
+        IntegerArrayUtil.doRadixSort(array.getContent());
     }
 
     @RepeatedTest(BINARY_SEARCH_TESTS_AMOUNT)
