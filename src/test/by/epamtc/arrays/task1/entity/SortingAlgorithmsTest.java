@@ -1,7 +1,7 @@
 package by.epamtc.arrays.task1.entity;
 
 import by.epamtc.arrays.task1.exception.InvalidArgumentException;
-import by.epamtc.arrays.task1.util.IntegerArrayUtil;
+import by.epamtc.arrays.task1.util.IntegerArrayUtils;
 import by.epamtc.arrays.task1.util.RandomUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -59,7 +59,7 @@ public class SortingAlgorithmsTest {
 
     @RepeatedTest(SORTING_TESTS_AMOUNT)
     void doRadixSortTest() {
-        IntegerArrayUtil.doRadixSort(array.getContent());
+        IntegerArrayUtils.doRadixSort(array.getContent());
         assertArrayEquals(expectedSortedArrayContent, array.getContent());
     }
 }

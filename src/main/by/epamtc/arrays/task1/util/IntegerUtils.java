@@ -4,12 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
 
-public final class IntegerUtil {
+public final class IntegerUtils {
 
-    public static final Predicate<Integer> PRIME_NUMBER = IntegerUtil::isPrime;
-    public static final Predicate<Integer> FIBONACCI_NUMBER = IntegerUtil::isFibonacciNumber;
+    public static final Predicate<Integer> PRIME_NUMBER = IntegerUtils::isPrime;
+    public static final Predicate<Integer> FIBONACCI_NUMBER = IntegerUtils::isFibonacciNumber;
     public static final Predicate<Integer> THREE_DIGIT_NUMBER_WITH_NO_SAME_DIGITS =
-            IntegerUtil::isThreeDigitNumberWithNoSameDigits;
+            IntegerUtils::isThreeDigitNumberWithNoSameDigits;
 
     private static final Set<Integer> FIBONACCI_NUMBERS_CACHE = new HashSet<>();
     private static final int MIN_THREE_DIGIT_NUMBER = 100;
@@ -19,7 +19,7 @@ public final class IntegerUtil {
         prepareFibonacciNumbers();
     }
 
-    private IntegerUtil() {
+    private IntegerUtils() {
     }
 
     private static void prepareFibonacciNumbers() {

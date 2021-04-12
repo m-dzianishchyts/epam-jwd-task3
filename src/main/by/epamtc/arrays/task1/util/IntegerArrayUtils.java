@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-public final class IntegerArrayUtil {
+public final class IntegerArrayUtils {
 
-    private IntegerArrayUtil() {
+    private IntegerArrayUtils() {
     }
 
     public static void doRadixSort(int[] array) {
