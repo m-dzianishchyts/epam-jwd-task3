@@ -2,6 +2,7 @@ package by.epamtc.arrays.task1.entity;
 
 import by.epamtc.arrays.task1.exception.InvalidArgumentException;
 import by.epamtc.arrays.task1.util.IntegerArrayUtil;
+import by.epamtc.arrays.task1.util.RandomUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
@@ -17,12 +18,17 @@ public class SortingAlgorithmsTest {
     private static int[] initialArrayContent;
     private static int[] expectedSortedArrayContent;
 
+    private static final int SORTING_TESTS_AMOUNT = 10;
+
     @BeforeAll
     @Order(1)
     static void initArray() throws InvalidArgumentException {
-        initialArrayContent = new int[(int) Math.pow(2, 20)];
+        int arraySize = (int) Math.pow(2, 20);
+        int minInitialValue = (int) -Math.pow(2, 10);
+        int maxInitialValue = (int) Math.pow(2, 10);
+        initialArrayContent = new int[arraySize];
         for (int i = 0; i < initialArrayContent.length; i++) {
-            initialArrayContent[i] = (int) (Math.random() * Math.pow(2, 20) - Math.pow(2, 19));
+            initialArrayContent[i] = RandomUtils.randomInt(minInitialValue, maxInitialValue);
         }
         array = new Array(Arrays.copyOf(initialArrayContent, initialArrayContent.length));
     }
@@ -39,19 +45,19 @@ public class SortingAlgorithmsTest {
         array = new Array(Arrays.copyOf(initialArrayContent, initialArrayContent.length));
     }
 
-    @RepeatedTest(10)
+    @RepeatedTest(SORTING_TESTS_AMOUNT)
     void doQuickSortTest() {
         array.doQuickSort();
         assertArrayEquals(expectedSortedArrayContent, array.getContent());
     }
 
-    @RepeatedTest(10)
+    @RepeatedTest(SORTING_TESTS_AMOUNT)
     void doMergeSortTest() {
         array.doMergeSort();
         assertArrayEquals(expectedSortedArrayContent, array.getContent());
     }
 
-    @RepeatedTest(10)
+    @RepeatedTest(SORTING_TESTS_AMOUNT)
     void doRadixSortTest() {
         IntegerArrayUtil.doRadixSort(array);
         assertArrayEquals(expectedSortedArrayContent, array.getContent());
