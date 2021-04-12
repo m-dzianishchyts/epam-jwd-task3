@@ -45,7 +45,7 @@ public class SortingAlgorithmsTest {
         assertArrayEquals(expectedSortedArrayContent, array.getContent());
     }
 
-    @RepeatedTest(100)
+    @RepeatedTest(10)
     void doMergeSortTest() {
         array.doMergeSort();
         assertArrayEquals(expectedSortedArrayContent, array.getContent());
