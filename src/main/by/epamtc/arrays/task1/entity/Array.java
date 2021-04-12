@@ -164,7 +164,7 @@ public class Array implements Comparable<Array> {
         if (mismatchPosition >= 0) {
             return content[mismatchPosition] > thatArray.content[mismatchPosition] ? 1 : -1;
         }
-        return content.length - thatArray.content.length;
+        return Integer.compare(content.length, thatArray.content.length);
     }
 
     private int mismatchPosition(int[] array1, int[] array2, int length) {
@@ -225,15 +225,17 @@ public class Array implements Comparable<Array> {
         for (int j = beginPos; j < endPos; j++) {
             if (content[j] <= pivot) {
                 i++;
-                int swapTemp = content[i];
-                content[i] = content[j];
-                content[j] = swapTemp;
+                swap(i, j);
             }
         }
-        int swapTemp = content[i + 1];
-        content[i + 1] = content[endPos];
-        content[endPos] = swapTemp;
+        swap(i + 1, endPos);
         return i + 1;
+    }
+
+    public void swap(int i, int j) {
+        int temp = content[i];
+        content[i] = content[j];
+        content[j] = temp;
     }
 
     public void doMergeSort() {
