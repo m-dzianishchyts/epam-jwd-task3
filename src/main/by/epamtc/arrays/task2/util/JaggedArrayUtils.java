@@ -6,7 +6,7 @@ import java.util.Comparator;
 
 public final class JaggedArrayUtils {
 
-    public static final Comparator<int[]> ROW_SUM_COMPARATOR_ASCENDING = (row1, row2) -> {
+    public static final Comparator<int[]> ROW_SUM_COMPARATOR = (row1, row2) -> {
         try {
             int sum1 = ArrayUtils.sum(row1);
             int sum2 = ArrayUtils.sum(row2);
@@ -15,16 +15,7 @@ public final class JaggedArrayUtils {
             return compareNullableRows(row1, row2);
         }
     };
-    public static final Comparator<int[]> ROW_SUM_COMPARATOR_DESCENDING = (row1, row2) -> {
-        try {
-            int sum1 = ArrayUtils.sum(row1);
-            int sum2 = ArrayUtils.sum(row2);
-            return Integer.compare(sum2, sum1);
-        } catch (InvalidArgumentException argumentException) {
-            return compareNullableRows(row2, row1);
-        }
-    };
-    public static final Comparator<int[]> MAX_ELEMENT_COMPARATOR_ASCENDING = (row1, row2) -> {
+    public static final Comparator<int[]> MAX_ELEMENT_COMPARATOR = (row1, row2) -> {
         try {
             int max1 = ArrayUtils.findMax(row1);
             int max2 = ArrayUtils.findMax(row2);
@@ -33,31 +24,13 @@ public final class JaggedArrayUtils {
             return compareNullableRows(row1, row2);
         }
     };
-    public static final Comparator<int[]> MAX_ELEMENT_COMPARATOR_DESCENDING = (row1, row2) -> {
-        try {
-            int max1 = ArrayUtils.findMax(row1);
-            int max2 = ArrayUtils.findMax(row2);
-            return Integer.compare(max2, max1);
-        } catch (InvalidArgumentException argumentException) {
-            return compareNullableRows(row2, row1);
-        }
-    };
-    public static final Comparator<int[]> MIN_ELEMENT_COMPARATOR_ASCENDING = (row1, row2) -> {
+    public static final Comparator<int[]> MIN_ELEMENT_COMPARATOR = (row1, row2) -> {
         try {
             int min1 = ArrayUtils.findMin(row1);
             int min2 = ArrayUtils.findMin(row2);
             return Integer.compare(min1, min2);
         } catch (InvalidArgumentException argumentException) {
             return compareNullableRows(row1, row2);
-        }
-    };
-    public static final Comparator<int[]> MIN_ELEMENT_COMPARATOR_DESCENDING = (row1, row2) -> {
-        try {
-            int min1 = ArrayUtils.findMax(row1);
-            int min2 = ArrayUtils.findMax(row2);
-            return Integer.compare(min2, min1);
-        } catch (InvalidArgumentException argumentException) {
-            return compareNullableRows(row2, row1);
         }
     };
 
@@ -76,7 +49,20 @@ public final class JaggedArrayUtils {
     }
 
     // Bubble sort.
-    public static void sort(int[][] jaggedArray, Comparator<int[]> comparator) {
+    public static void sort(int[][] jaggedArray, Comparator<int[]> comparator, SortingMode sortingMode)
+            throws InvalidArgumentException {
+        if (jaggedArray == null) {
+            throw new InvalidArgumentException("Jagged array cannot be null");
+        }
+        if (comparator == null) {
+            throw new InvalidArgumentException("Comparator cannot be null");
+        }
+        if (sortingMode == null) {
+            throw new InvalidArgumentException("Sorting mode cannot be null");
+        }
+        if (sortingMode == SortingMode.DESCENDING) {
+            comparator = comparator.reversed();
+        }
         boolean swapped = true;
         int ceilIndex = jaggedArray.length;
         while (swapped) {
