@@ -2,12 +2,98 @@ package by.epamtc.arrays.task1.entity;
 
 import by.epamtc.arrays.task1.exception.IncompatibleStateException;
 import by.epamtc.arrays.task1.exception.InvalidArgumentException;
+import by.epamtc.arrays.task1.util.DataScanningUtils;
+import by.epamtc.arrays.task1.util.RandomUtils;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class Array implements Comparable<Array> {
 
     private int[] content;
 
+    public Array(int size) throws InvalidArgumentException {
+        if (size < 0) {
+            throw new InvalidArgumentException("Array size cannot be negative.");
+        }
+        this.content = new int[size];
+    }
+
+    public Array(Collection<Integer> collection) throws InvalidArgumentException {
+        if (collection == null) {
+            throw new InvalidArgumentException("Collection cannot be negative.");
+        }
+        initFromCollection(collection);
+    }
+
+    public Array(File file) throws InvalidArgumentException, IncompatibleStateException {
+        initFromFile(file);
+    }
+
+    public Array(Array array) throws InvalidArgumentException {
+        if (array == null) {
+            throw new InvalidArgumentException("Array cannot be null.");
+        }
+        content = new int[array.getLength()];
+        System.arraycopy(array.getContent(), 0, content, 0, content.length);
+    }
+
     public Array(int[] content) throws InvalidArgumentException {
+        checkContent(content);
+        this.content = content;
+    }
+
+    public final void initFromCollection(Collection<Integer> collection) {
+        content = new int[collection.size()];
+        int i = 0;
+        for (var value : collection) {
+            content[i] = value;
+            i++;
+        }
+    }
+
+    public final void initFromFile(File file) throws InvalidArgumentException, IncompatibleStateException {
+        if (file == null) {
+            throw new InvalidArgumentException("File cannot be null.");
+        }
+        if (!file.exists()) {
+            throw new InvalidArgumentException("File not found.");
+        }
+        if (!file.canRead()) {
+            throw new InvalidArgumentException("Not enough permissions to read file.");
+        }
+
+        List<Integer> integerList = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            while (reader.ready()) {
+                String line = reader.readLine();
+                List<Integer> parsedValues = DataScanningUtils.parseIntegersFromString(line);
+                integerList.addAll(parsedValues);
+            }
+        } catch (FileNotFoundException e) {
+            throw new IncompatibleStateException("File not found.", e);
+        } catch (IOException e) {
+            throw new IncompatibleStateException("An error occurred while reading from file.", e);
+        }
+
+        initFromCollection(integerList);
+    }
+
+    public int getLength() {
+        return content.length;
+    }
+
+    public int[] getContent() {
+        return content;
+    }
+
+    public void setContent(int[] content) throws InvalidArgumentException {
         checkContent(content);
         this.content = content;
     }
@@ -18,8 +104,16 @@ public class Array implements Comparable<Array> {
         }
     }
 
-    public int getLength() {
-        return content.length;
+    public void initFromConsole() {
+        for (int i = 0; i < content.length; i++) {
+            content[i] = DataScanningUtils.enterIntegerFromConsole();
+        }
+    }
+
+    public void initByRandomValues(int minValue, int maxValue) {
+        for (int i = 0; i < content.length; i++) {
+            content[i] = RandomUtils.randomInt(minValue, maxValue);
+        }
     }
 
     @Override
@@ -44,6 +138,26 @@ public class Array implements Comparable<Array> {
     }
 
     @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder(getClass().getSimpleName()).append("@[");
+        if (content.length == 0) {
+            builder.append("[]");
+        } else {
+            int i = 0;
+            while (true) {
+                builder.append(content[i]);
+                i++;
+                if (i == content.length) {
+                    builder.append(']');
+                    break;
+                }
+                builder.append(", ");
+            }
+        }
+        return builder.toString();
+    }
+
+    @Override
     public int compareTo(Array thatArray) {
         int mismatchPosition = mismatchPosition(content, thatArray.content,
                                                 Math.min(content.length, thatArray.content.length));
@@ -60,15 +174,6 @@ public class Array implements Comparable<Array> {
             }
         }
         return -1;
-    }
-
-    public int[] getContent() {
-        return content;
-    }
-
-    public void setContent(int[] content) throws InvalidArgumentException {
-        checkContent(content);
-        this.content = content;
     }
 
     public int findMax() throws IncompatibleStateException {
@@ -170,7 +275,7 @@ public class Array implements Comparable<Array> {
         if (leftIndex > midPos) {
             System.arraycopy(content, rightIndex, buffer, bufferIndex, endPos - rightIndex + 1);
 
-        // Or, if right part is finished, put everything remaining from left part info buffer.
+            // Or, if right part is finished, put everything remaining from left part info buffer.
         } else {
             System.arraycopy(content, leftIndex, buffer, bufferIndex, midPos - leftIndex + 1);
         }

@@ -2,9 +2,6 @@ package by.epamtc.arrays.task1.entity;
 
 import by.epamtc.arrays.task1.exception.IncompatibleStateException;
 import by.epamtc.arrays.task1.exception.InvalidArgumentException;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.RepeatedTest;
@@ -12,10 +9,14 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class ArrayTest {
 
+    private static final int COMPARE_TO_TESTS_AMOUNT = 10;
     private static Array array;
-    private static int[] initialArrayContent;
+    private static Array initialArray;
     private static int expectedMax;
     private static int expectedMin;
 
@@ -26,15 +27,12 @@ class ArrayTest {
     }
 
     static void initArray() throws InvalidArgumentException {
-        initialArrayContent = new int[(int) Math.pow(2, 20)];
-        initByRandomValues(initialArrayContent, (int) -Math.pow(2, 10), (int) Math.pow(2, 10));
-        array = new Array(Arrays.copyOf(initialArrayContent, initialArrayContent.length));
-    }
-
-    private static void initByRandomValues(int[] someArrayContent, int minValue, int maxValue) {
-        for (int i = 0; i < someArrayContent.length; i++) {
-            someArrayContent[i] = (int) (Math.random() * (maxValue - minValue) + minValue);
-        }
+        int arraySize = (int) Math.pow(2, 20);
+        int minInitialValue = (int) -Math.pow(2, 10);
+        int maxInitialValue = (int) Math.pow(2, 10);
+        initialArray = new Array(arraySize);
+        initialArray.initByRandomValues(minInitialValue, maxInitialValue);
+        array = new Array(initialArray);
     }
 
     static void prepareExpectedMaxMin() {
@@ -50,15 +48,17 @@ class ArrayTest {
 
     @AfterEach
     void resetArrayContent() throws InvalidArgumentException {
-        array = new Array(Arrays.copyOf(initialArrayContent, initialArrayContent.length));
+        array = new Array(initialArray);
     }
 
-    @RepeatedTest(10)
+    @RepeatedTest(COMPARE_TO_TESTS_AMOUNT)
     void compareTo() throws InvalidArgumentException {
-        int[] someArrayContent = new int[array.getLength()];
-        initByRandomValues(someArrayContent, (int) -Math.pow(2, 10), (int) Math.pow(2, 10));
-        int expectedResult = Arrays.compare(array.getContent(), someArrayContent);
-        int observableResult = array.compareTo(new Array(someArrayContent));
+        int minInitialValue = (int) -Math.pow(2, 10);
+        int maxInitialValue = (int) Math.pow(2, 10);
+        Array someArray = new Array(array.getLength());
+        someArray.initByRandomValues(minInitialValue, maxInitialValue);
+        int expectedResult = Arrays.compare(array.getContent(), someArray.getContent());
+        int observableResult = array.compareTo(someArray);
         assertEquals(expectedResult, observableResult);
     }
 
@@ -77,7 +77,7 @@ class ArrayTest {
     @Test
     void findMaxInvalid() throws InvalidArgumentException {
         array.setContent(new int[0]);
-        assertThrows(IncompatibleStateException.class ,() -> array.findMax());
+        assertThrows(IncompatibleStateException.class, () -> array.findMax());
     }
 
     @Test
@@ -88,6 +88,6 @@ class ArrayTest {
     @Test
     void findMinInvalid() throws InvalidArgumentException {
         array.setContent(new int[0]);
-        assertThrows(IncompatibleStateException.class ,() -> array.findMin());
+        assertThrows(IncompatibleStateException.class, () -> array.findMin());
     }
 }
