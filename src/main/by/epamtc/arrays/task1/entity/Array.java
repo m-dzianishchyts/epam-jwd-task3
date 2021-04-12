@@ -178,4 +178,28 @@ public class Array implements Comparable<Array> {
         // Copy sorted part to original content.
         System.arraycopy(buffer, 0, content, beginPos, buffer.length);
     }
+
+    // The result is undefined if array is not sorted.
+    int findViaBinarySearch(int value) {
+        if (content.length == 0) {
+            return -1;
+        }
+        int indexOfValue = findViaBinarySearchRecursive(0, content.length - 1, value);
+        return indexOfValue;
+    }
+
+    int findViaBinarySearchRecursive(int beginPos, int endPos, int value) {
+        if (endPos >= beginPos) {
+            int mid = beginPos + (endPos - beginPos) / 2;
+            if (content[mid] == value) {
+                return mid;
+            }
+            if (value < content[mid]) {
+                return findViaBinarySearchRecursive(beginPos, mid - 1, value);
+            } else {
+                return findViaBinarySearchRecursive(mid + 1, endPos, value);
+            }
+        }
+        return -(beginPos + 1);
+    }
 }
