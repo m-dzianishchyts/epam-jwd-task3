@@ -1,28 +1,10 @@
 package by.epamtc.arrays.task1.util;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.function.Predicate;
 
 public final class IntegerArrayUtil {
-
-    private static final Set<Integer> fibonacciNumbersCache = new HashSet<>();
-
-    static {
-        prepareFibonacciNumbers();
-    }
-
-    private static void prepareFibonacciNumbers() {
-        int fibonacciNumber1 = 0;
-        int fibonacciNumber2 = 1;
-        while ((long) fibonacciNumber1 + fibonacciNumber2 <= Integer.MAX_VALUE) {
-            int fibonacciNumber3 = fibonacciNumber1 + fibonacciNumber2;
-            fibonacciNumbersCache.add(fibonacciNumber3);
-            fibonacciNumber1 = fibonacciNumber2;
-            fibonacciNumber2 = fibonacciNumber3;
-        }
-    }
 
     private IntegerArrayUtil() {
     }
@@ -69,20 +51,10 @@ public final class IntegerArrayUtil {
         }
     }
 
-    public static List<Integer> extractFibonacciNumbers(int[] array) {
+    public static List<Integer> extractNumbersByPredicate(int[] array, Predicate<Integer> predicate) {
         List<Integer> result = new ArrayList<>();
         for (var value : array) {
-            if (fibonacciNumbersCache.contains(value)) {
-                result.add(value);
-            }
-        }
-        return result;
-    }
-
-    public static List<Integer> extractPrimeNumbers(int[] array) {
-        List<Integer> result = new ArrayList<>();
-        for (var value : array) {
-            if (IntegerUtil.isPrime(value)) {
+            if (predicate.test(value)) {
                 result.add(value);
             }
         }
