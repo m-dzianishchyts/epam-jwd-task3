@@ -24,7 +24,7 @@ public final class ArrayUtils {
 
     public static int findMax(int[] array) throws InvalidArgumentException {
         checkArrayOnNull(array);
-        checkOnEmpty(array);
+        checkArrayOnEmpty(array);
         int maxValue = array[0];
         for (int i = 1; i < array.length; i++) {
             if (array[i] > maxValue) {
@@ -34,7 +34,7 @@ public final class ArrayUtils {
         return maxValue;
     }
 
-    private static void checkOnEmpty(int[] array) throws InvalidArgumentException {
+    private static void checkArrayOnEmpty(int[] array) throws InvalidArgumentException {
         if (array.length == 0) {
             throw new InvalidArgumentException("Array is empty.");
         }
@@ -42,7 +42,7 @@ public final class ArrayUtils {
 
     public static int findMin(int[] array) throws InvalidArgumentException {
         checkArrayOnNull(array);
-        checkOnEmpty(array);
+        checkArrayOnEmpty(array);
         int minValue = array[0];
         for (int i = 1; i < array.length; i++) {
             if (array[i] < minValue) {
