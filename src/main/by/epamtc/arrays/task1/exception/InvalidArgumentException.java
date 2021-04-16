@@ -1,4 +1,4 @@
-package by.epamtc.arrays.exception;
+package by.epamtc.arrays.task1.exception;
 
 public class InvalidArgumentException extends Exception {
 

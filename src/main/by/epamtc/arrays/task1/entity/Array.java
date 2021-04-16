@@ -1,7 +1,7 @@
 package by.epamtc.arrays.task1.entity;
 
-import by.epamtc.arrays.exception.IncompatibleStateException;
-import by.epamtc.arrays.exception.InvalidArgumentException;
+import by.epamtc.arrays.task1.exception.IncompatibleStateException;
+import by.epamtc.arrays.task1.exception.InvalidArgumentException;
 import by.epamtc.arrays.task1.util.DataScanningUtils;
 import by.epamtc.arrays.task1.util.RandomUtils;
 
@@ -177,7 +177,7 @@ public class Array implements Comparable<Array> {
     }
 
     public int findMax() throws IncompatibleStateException {
-        checkOnEmpty();
+        checkOnEmptyContent();
         int maxValue = content[0];
         for (int i = 1; i < content.length; i++) {
             if (content[i] > maxValue) {
@@ -187,14 +187,14 @@ public class Array implements Comparable<Array> {
         return maxValue;
     }
 
-    private void checkOnEmpty() throws IncompatibleStateException {
+    private void checkOnEmptyContent() throws IncompatibleStateException {
         if (content.length == 0) {
             throw new IncompatibleStateException("Array is empty.");
         }
     }
 
     public int findMin() throws IncompatibleStateException {
-        checkOnEmpty();
+        checkOnEmptyContent();
         int minValue = content[0];
         for (int i = 1; i < content.length; i++) {
             if (content[i] < minValue) {
@@ -254,7 +254,7 @@ public class Array implements Comparable<Array> {
         }
     }
 
-    void merge(int beginPos, int endPos) {
+    private void merge(int beginPos, int endPos) {
         int midPos = (beginPos + endPos) / 2;
         int[] buffer = new int[endPos - beginPos + 1];
         int bufferIndex = 0;
@@ -287,7 +287,7 @@ public class Array implements Comparable<Array> {
     }
 
     // The result is undefined if array is not sorted.
-    int findViaBinarySearch(int value) {
+    public int findViaBinarySearch(int value) {
         if (content.length == 0) {
             return -1;
         }
@@ -295,7 +295,7 @@ public class Array implements Comparable<Array> {
         return indexOfValue;
     }
 
-    int findViaBinarySearchRecursive(int beginPos, int endPos, int value) {
+    private int findViaBinarySearchRecursive(int beginPos, int endPos, int value) {
         if (endPos >= beginPos) {
             int mid = beginPos + (endPos - beginPos) / 2;
             if (content[mid] == value) {

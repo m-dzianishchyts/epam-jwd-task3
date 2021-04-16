@@ -1,7 +1,7 @@
 package by.epamtc.arrays.task1.entity;
 
-import by.epamtc.arrays.exception.IncompatibleStateException;
-import by.epamtc.arrays.exception.InvalidArgumentException;
+import by.epamtc.arrays.task1.exception.IncompatibleStateException;
+import by.epamtc.arrays.task1.exception.InvalidArgumentException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.RepeatedTest;

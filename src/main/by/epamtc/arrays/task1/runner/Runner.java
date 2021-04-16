@@ -1,8 +1,8 @@
 package by.epamtc.arrays.task1.runner;
 
 import by.epamtc.arrays.task1.entity.Array;
-import by.epamtc.arrays.exception.IncompatibleStateException;
-import by.epamtc.arrays.exception.InvalidArgumentException;
+import by.epamtc.arrays.task1.exception.IncompatibleStateException;
+import by.epamtc.arrays.task1.exception.InvalidArgumentException;
 import by.epamtc.arrays.task1.util.DataScanningUtils;
 import by.epamtc.arrays.task1.util.IntegerArrayUtils;
 import by.epamtc.arrays.task1.util.IntegerUtils;
@@ -18,7 +18,7 @@ public class Runner {
     private static final int MAX_RANDOM_VALUE = (int) Math.pow(2, 10);
     private static final int INITIAL_ARRAY_SIZE = (int) Math.pow(2, 10);
 
-    public static void main(String[] args) throws InvalidArgumentException, IncompatibleStateException {
+    public static void main(String[] args) throws InvalidArgumentException {
         initByRandomValues();
         List<Integer> primeNumbers = IntegerArrayUtils.extractNumbersByPredicate(array.getContent(), IntegerUtils.THREE_DIGIT_NUMBER_WITH_NO_SAME_DIGITS);
         primeNumbers.sort(Comparator.naturalOrder());
