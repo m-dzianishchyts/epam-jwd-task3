@@ -1,6 +1,5 @@
 package by.epamtc.arrays.task2.util;
 
-import by.epamtc.arrays.exception.InvalidArgumentException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -51,10 +50,7 @@ class JaggedArrayUtilsTest {
         }).toArray(int[][]::new);
     }
 
-    static boolean checkSortedJaggedArray(int[][] jaggedArray, Comparator<int[]> comparator, SortingMode sortingMode) {
-        if (sortingMode == SortingMode.DESCENDING) {
-            comparator = comparator.reversed();
-        }
+    static boolean checkSortedJaggedArray(int[][] jaggedArray, Comparator<int[]> comparator) {
         for (int i = 1; i < jaggedArray.length; i++) {
             if (comparator.compare(jaggedArray[i], jaggedArray[i - 1]) < 0) {
                 return false;
@@ -69,20 +65,17 @@ class JaggedArrayUtilsTest {
         }
     }
 
-    static void sortTest(Comparator<int[]> comparator, SortingMode sortingMode) throws InvalidArgumentException {
-        JaggedArrayUtils.sort(staticJaggedArray, comparator, sortingMode);
-        assertTrue(checkSortedJaggedArray(staticJaggedArray, comparator, sortingMode));
+    static void sortTest(Comparator<int[]> comparator) throws SortArgumentsException {
+        JaggedArrayUtils.sort(staticJaggedArray, comparator);
+        assertTrue(checkSortedJaggedArray(staticJaggedArray, comparator));
     }
 
-    static void comparatorTest(int[][] jaggedArray, Comparator<int[]> comparator, SortingMode sortingMode) {
-        SortingMode oppositeSortingMode = sortingMode == SortingMode.ASCENDING
-                                          ? SortingMode.DESCENDING
-                                          : SortingMode.ASCENDING;
-        assertTrue(checkSortedJaggedArray(jaggedArray, comparator, sortingMode));
-        assertFalse(checkSortedJaggedArray(jaggedArray, comparator, oppositeSortingMode));
+    static void comparatorTest(int[][] jaggedArray, Comparator<int[]> comparator) {
+        assertTrue(checkSortedJaggedArray(jaggedArray, comparator));
+        assertFalse(checkSortedJaggedArray(jaggedArray, comparator.reversed()));
         reverseJaggedArray(jaggedArray);
-        assertFalse(checkSortedJaggedArray(jaggedArray, comparator, sortingMode));
-        assertTrue(checkSortedJaggedArray(jaggedArray, comparator, oppositeSortingMode));
+        assertFalse(checkSortedJaggedArray(jaggedArray, comparator));
+        assertTrue(checkSortedJaggedArray(jaggedArray, comparator.reversed()));
     }
 
     @AfterEach
@@ -91,52 +84,52 @@ class JaggedArrayUtilsTest {
     }
 
     @Test
-    void sortViaRowSumAscendingTest() throws InvalidArgumentException {
-        sortTest(JaggedArrayUtils.ROW_SUM_COMPARATOR, SortingMode.ASCENDING);
+    void sortViaRowSumAscendingTest() throws SortArgumentsException {
+        sortTest(JaggedArrayUtils.ROW_SUM_COMPARATOR);
     }
 
     @Test
-    void sortViaRowSumDescendingTest() throws InvalidArgumentException {
-        sortTest(JaggedArrayUtils.ROW_SUM_COMPARATOR, SortingMode.DESCENDING);
+    void sortViaRowSumDescendingTest() throws SortArgumentsException {
+        sortTest(JaggedArrayUtils.ROW_SUM_COMPARATOR.reversed());
 
     }
 
     @Test
-    void sortViaMaxElementAscendingTest() throws InvalidArgumentException {
-        sortTest(JaggedArrayUtils.MAX_ELEMENT_COMPARATOR, SortingMode.ASCENDING);
+    void sortViaMaxElementAscendingTest() throws SortArgumentsException {
+        sortTest(JaggedArrayUtils.MAX_ELEMENT_COMPARATOR);
     }
 
     @Test
-    void sortViaMaxElementDescendingTest() throws InvalidArgumentException {
-        sortTest(JaggedArrayUtils.MAX_ELEMENT_COMPARATOR, SortingMode.DESCENDING);
+    void sortViaMaxElementDescendingTest() throws SortArgumentsException {
+        sortTest(JaggedArrayUtils.MAX_ELEMENT_COMPARATOR.reversed());
     }
 
     @Test
-    void sortViaMinElementAscendingTest() throws InvalidArgumentException {
-        sortTest(JaggedArrayUtils.MIN_ELEMENT_COMPARATOR, SortingMode.ASCENDING);
+    void sortViaMinElementAscendingTest() throws SortArgumentsException {
+        sortTest(JaggedArrayUtils.MIN_ELEMENT_COMPARATOR);
     }
 
     @Test
-    void sortViaMinElementDescendingTest() throws InvalidArgumentException {
-        sortTest(JaggedArrayUtils.MIN_ELEMENT_COMPARATOR, SortingMode.DESCENDING);
+    void sortViaMinElementDescendingTest() throws SortArgumentsException {
+        sortTest(JaggedArrayUtils.MIN_ELEMENT_COMPARATOR.reversed());
     }
 
     @Test
     void sumComparatorTest() {
         int[][] jaggedArray = {null, {-20}, {-15}, {12, -20}, {}, {}, {0}, {12, 5}, {-14, 40}};
-        comparatorTest(jaggedArray, JaggedArrayUtils.ROW_SUM_COMPARATOR, SortingMode.ASCENDING);
+        comparatorTest(jaggedArray, JaggedArrayUtils.ROW_SUM_COMPARATOR);
     }
 
     @Test
     void maxElementComparatorTest() {
         int[][] jaggedArray = {null, {}, {}, {-15, 0}, {12, -20}, {12, 5, -11}, {-20, 16}, {-14, 40}, {0, 63, 85}};
-        assertTrue(checkSortedJaggedArray(jaggedArray, JaggedArrayUtils.MAX_ELEMENT_COMPARATOR, SortingMode.ASCENDING));
-        comparatorTest(jaggedArray, JaggedArrayUtils.MAX_ELEMENT_COMPARATOR, SortingMode.ASCENDING);
+        assertTrue(checkSortedJaggedArray(jaggedArray, JaggedArrayUtils.MAX_ELEMENT_COMPARATOR));
+        comparatorTest(jaggedArray, JaggedArrayUtils.MAX_ELEMENT_COMPARATOR);
     }
 
     @Test
     void minElementComparatorTest() {
         int[][] jaggedArray = {null, {}, {}, {12, -20}, {-20, 16}, {-15, 0}, {-14, 40}, {12, 5, -11}, {0, 63, 85}};
-        comparatorTest(jaggedArray, JaggedArrayUtils.MIN_ELEMENT_COMPARATOR, SortingMode.ASCENDING);
+        comparatorTest(jaggedArray, JaggedArrayUtils.MIN_ELEMENT_COMPARATOR);
     }
 }

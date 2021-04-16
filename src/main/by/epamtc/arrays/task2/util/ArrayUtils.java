@@ -1,13 +1,14 @@
 package by.epamtc.arrays.task2.util;
 
-import by.epamtc.arrays.exception.InvalidArgumentException;
+import java.util.Comparator;
+import java.util.OptionalInt;
 
 public final class ArrayUtils {
 
     private ArrayUtils() {
     }
 
-    public static int sum(int[] array) throws InvalidArgumentException {
+    public static int sum(int[] array) throws NullArrayException {
         checkArrayOnNull(array);
         int sum = 0;
         for (var value : array) {
@@ -16,39 +17,34 @@ public final class ArrayUtils {
         return sum;
     }
 
-    private static void checkArrayOnNull(int[] array) throws InvalidArgumentException {
+    private static void checkArrayOnNull(int[] array) throws NullArrayException {
         if (array == null) {
-            throw new InvalidArgumentException("Array cannot be null.");
+            throw new NullArrayException("Array cannot be null.");
         }
     }
 
-    public static int findMax(int[] array) throws InvalidArgumentException {
+    // Returns first index of max element in array.
+    public static OptionalInt findIndexOfMax(int[] array) throws NullArrayException {
+        return findIndexOfMost(array, Comparator.naturalOrder());
+    }
+
+    private static OptionalInt findIndexOfMost(int[] array, Comparator<Integer> comparator)
+            throws NullArrayException {
         checkArrayOnNull(array);
-        checkArrayOnEmpty(array);
-        int maxValue = array[0];
-        for (int i = 1; i < array.length; i++) {
-            if (array[i] > maxValue) {
-                maxValue = array[i];
-            }
-        }
-        return maxValue;
-    }
-
-    private static void checkArrayOnEmpty(int[] array) throws InvalidArgumentException {
         if (array.length == 0) {
-            throw new InvalidArgumentException("Array is empty.");
+            return OptionalInt.empty();
         }
-    }
-
-    public static int findMin(int[] array) throws InvalidArgumentException {
-        checkArrayOnNull(array);
-        checkArrayOnEmpty(array);
-        int minValue = array[0];
+        int indexOfMax = 0;
         for (int i = 1; i < array.length; i++) {
-            if (array[i] < minValue) {
-                minValue = array[i];
+            if (comparator.compare(array[i], array[indexOfMax]) > 0) {
+                indexOfMax = i;
             }
         }
-        return minValue;
+        return OptionalInt.of(indexOfMax);
+    }
+
+    // Returns first index of min element in array.
+    public static OptionalInt findIndexOfMin(int[] array) throws NullArrayException {
+        return findIndexOfMost(array, Comparator.reverseOrder());
     }
 }

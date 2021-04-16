@@ -1,7 +1,5 @@
 package by.epamtc.arrays.task2.util;
 
-import by.epamtc.arrays.exception.InvalidArgumentException;
-
 import java.util.Comparator;
 
 public final class JaggedArrayUtils {
@@ -11,25 +9,35 @@ public final class JaggedArrayUtils {
             int sum1 = ArrayUtils.sum(row1);
             int sum2 = ArrayUtils.sum(row2);
             return Integer.compare(sum1, sum2);
-        } catch (InvalidArgumentException argumentException) {
+        } catch (NullArrayException argumentException) {
             return compareNullableRows(row1, row2);
         }
     };
     public static final Comparator<int[]> MAX_ELEMENT_COMPARATOR = (row1, row2) -> {
         try {
-            int max1 = ArrayUtils.findMax(row1);
-            int max2 = ArrayUtils.findMax(row2);
+            var indexOfMax1 = ArrayUtils.findIndexOfMax(row1);
+            var indexOfMax2 = ArrayUtils.findIndexOfMax(row2);
+            if (indexOfMax1.isEmpty() || indexOfMax2.isEmpty()) {
+                return Integer.compare(row1.length, row2.length);
+            }
+            int max1 = row1[indexOfMax1.getAsInt()];
+            int max2 = row2[indexOfMax2.getAsInt()];
             return Integer.compare(max1, max2);
-        } catch (InvalidArgumentException argumentException) {
+        } catch (NullArrayException argumentException) {
             return compareNullableRows(row1, row2);
         }
     };
     public static final Comparator<int[]> MIN_ELEMENT_COMPARATOR = (row1, row2) -> {
         try {
-            int min1 = ArrayUtils.findMin(row1);
-            int min2 = ArrayUtils.findMin(row2);
+            var indexOfMin1 = ArrayUtils.findIndexOfMin(row1);
+            var indexOfMin2 = ArrayUtils.findIndexOfMin(row2);
+            if (indexOfMin1.isEmpty() || indexOfMin2.isEmpty()) {
+                return Integer.compare(row1.length, row2.length);
+            }
+            int min1 = row1[indexOfMin1.getAsInt()];
+            int min2 = row2[indexOfMin2.getAsInt()];
             return Integer.compare(min1, min2);
-        } catch (InvalidArgumentException argumentException) {
+        } catch (NullArrayException argumentException) {
             return compareNullableRows(row1, row2);
         }
     };
@@ -49,19 +57,13 @@ public final class JaggedArrayUtils {
     }
 
     // Bubble sort.
-    public static void sort(int[][] jaggedArray, Comparator<int[]> comparator, SortingMode sortingMode)
-            throws InvalidArgumentException {
+    public static void sort(int[][] jaggedArray, Comparator<int[]> comparator)
+            throws SortArgumentsException {
         if (jaggedArray == null) {
-            throw new InvalidArgumentException("Jagged array cannot be null");
+            throw new SortArgumentsException("Jagged array cannot be null");
         }
         if (comparator == null) {
-            throw new InvalidArgumentException("Comparator cannot be null");
-        }
-        if (sortingMode == null) {
-            throw new InvalidArgumentException("Sorting mode cannot be null");
-        }
-        if (sortingMode == SortingMode.DESCENDING) {
-            comparator = comparator.reversed();
+            throw new SortArgumentsException("Comparator cannot be null");
         }
         boolean swapped = true;
         int ceilIndex = jaggedArray.length;
