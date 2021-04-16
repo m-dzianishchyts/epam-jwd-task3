@@ -162,7 +162,7 @@ public class Array implements Comparable<Array> {
         int mismatchPosition = mismatchPosition(content, thatArray.content,
                                                 Math.min(content.length, thatArray.content.length));
         if (mismatchPosition >= 0) {
-            return content[mismatchPosition] > thatArray.content[mismatchPosition] ? 1 : -1;
+            return Integer.compare(content[mismatchPosition], thatArray.content[mismatchPosition]);
         }
         return Integer.compare(content.length, thatArray.content.length);
     }
