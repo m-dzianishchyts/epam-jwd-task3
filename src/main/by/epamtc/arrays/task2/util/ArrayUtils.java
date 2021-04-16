@@ -1,6 +1,7 @@
 package by.epamtc.arrays.task2.util;
 
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.OptionalInt;
 
 public final class ArrayUtils {
@@ -8,30 +9,24 @@ public final class ArrayUtils {
     private ArrayUtils() {
     }
 
-    public static int sum(int[] array) throws NullArrayException {
-        checkArrayOnNull(array);
+    public static Optional<Integer> sum(int[] array) {
+        if (array == null) {
+            return Optional.empty();
+        }
         int sum = 0;
         for (var value : array) {
             sum += value;
         }
-        return sum;
-    }
-
-    private static void checkArrayOnNull(int[] array) throws NullArrayException {
-        if (array == null) {
-            throw new NullArrayException("Array cannot be null.");
-        }
+        return Optional.of(sum);
     }
 
     // Returns first index of max element in array.
-    public static OptionalInt findIndexOfMax(int[] array) throws NullArrayException {
+    public static OptionalInt findIndexOfMax(int[] array) {
         return findIndexOfMost(array, Comparator.naturalOrder());
     }
 
-    private static OptionalInt findIndexOfMost(int[] array, Comparator<Integer> comparator)
-            throws NullArrayException {
-        checkArrayOnNull(array);
-        if (array.length == 0) {
+    private static OptionalInt findIndexOfMost(int[] array, Comparator<Integer> comparator) {
+        if (array == null || array.length == 0) {
             return OptionalInt.empty();
         }
         int indexOfMax = 0;
@@ -44,7 +39,7 @@ public final class ArrayUtils {
     }
 
     // Returns first index of min element in array.
-    public static OptionalInt findIndexOfMin(int[] array) throws NullArrayException {
+    public static OptionalInt findIndexOfMin(int[] array) {
         return findIndexOfMost(array, Comparator.reverseOrder());
     }
 }

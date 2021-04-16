@@ -5,39 +5,46 @@ import java.util.Comparator;
 public final class JaggedArrayUtils {
 
     public static final Comparator<int[]> ROW_SUM_COMPARATOR = (row1, row2) -> {
-        try {
-            int sum1 = ArrayUtils.sum(row1);
-            int sum2 = ArrayUtils.sum(row2);
-            return Integer.compare(sum1, sum2);
-        } catch (NullArrayException argumentException) {
+        var optionalSum1 = ArrayUtils.sum(row1);
+        var optionalSum2 = ArrayUtils.sum(row2);
+        if (optionalSum1.isEmpty() || optionalSum2.isEmpty()) {
             return compareNullableRows(row1, row2);
         }
+        int sum1 = optionalSum1.get();
+        int sum2 = optionalSum2.get();
+        return Integer.compare(sum1, sum2);
     };
     public static final Comparator<int[]> MAX_ELEMENT_COMPARATOR = (row1, row2) -> {
-        try {
-            var indexOfMax1 = ArrayUtils.findIndexOfMax(row1);
-            var indexOfMax2 = ArrayUtils.findIndexOfMax(row2);
-            if (indexOfMax1.isEmpty() || indexOfMax2.isEmpty()) {
-                return Integer.compare(row1.length, row2.length);
-            }
-            int max1 = row1[indexOfMax1.getAsInt()];
-            int max2 = row2[indexOfMax2.getAsInt()];
-            return Integer.compare(max1, max2);
-        } catch (NullArrayException argumentException) {
+        var indexOfMax1 = ArrayUtils.findIndexOfMax(row1);
+        var indexOfMax2 = ArrayUtils.findIndexOfMax(row2);
+        if (indexOfMax1.isEmpty() && indexOfMax2.isPresent()) {
+            return -1;
+        }
+        if (indexOfMax1.isPresent() && indexOfMax2.isEmpty()) {
+            return 1;
+        }
+        if (indexOfMax1.isPresent()) {
+            int min1 = row1[indexOfMax1.getAsInt()];
+            int min2 = row2[indexOfMax2.getAsInt()];
+            return Integer.compare(min1, min2);
+        } else {
             return compareNullableRows(row1, row2);
         }
     };
     public static final Comparator<int[]> MIN_ELEMENT_COMPARATOR = (row1, row2) -> {
-        try {
-            var indexOfMin1 = ArrayUtils.findIndexOfMin(row1);
-            var indexOfMin2 = ArrayUtils.findIndexOfMin(row2);
-            if (indexOfMin1.isEmpty() || indexOfMin2.isEmpty()) {
-                return Integer.compare(row1.length, row2.length);
-            }
+        var indexOfMin1 = ArrayUtils.findIndexOfMin(row1);
+        var indexOfMin2 = ArrayUtils.findIndexOfMin(row2);
+        if (indexOfMin1.isEmpty() && indexOfMin2.isPresent()) {
+            return -1;
+        }
+        if (indexOfMin1.isPresent() && indexOfMin2.isEmpty()) {
+            return 1;
+        }
+        if (indexOfMin1.isPresent()) {
             int min1 = row1[indexOfMin1.getAsInt()];
             int min2 = row2[indexOfMin2.getAsInt()];
             return Integer.compare(min1, min2);
-        } catch (NullArrayException argumentException) {
+        } else {
             return compareNullableRows(row1, row2);
         }
     };
@@ -57,8 +64,7 @@ public final class JaggedArrayUtils {
     }
 
     // Bubble sort.
-    public static void sort(int[][] jaggedArray, Comparator<int[]> comparator)
-            throws SortArgumentsException {
+    public static void sort(int[][] jaggedArray, Comparator<int[]> comparator) throws SortArgumentsException {
         if (jaggedArray == null) {
             throw new SortArgumentsException("Jagged array cannot be null");
         }
