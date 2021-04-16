@@ -213,15 +213,15 @@ public class Array implements Comparable<Array> {
 
     private void doQuickSortRecursive(int beginPos, int endPos) {
         if (beginPos < endPos) {
-            int partitionIndex = makeSeparation(beginPos, endPos);
+            int partitionIndex = makeSeparationForQuickSort(beginPos, endPos);
             doQuickSortRecursive(beginPos, partitionIndex - 1);
             doQuickSortRecursive(partitionIndex + 1, endPos);
         }
     }
 
-    private int makeSeparation(int beginPos, int endPos) {
+    private int makeSeparationForQuickSort(int beginPos, int endPos) {
         int pivot = content[endPos];
-        int i = (beginPos - 1);
+        int i = beginPos - 1;
         for (int j = beginPos; j < endPos; j++) {
             if (content[j] <= pivot) {
                 i++;
