@@ -51,8 +51,11 @@ class JaggedArrayUtilsTest {
     }
 
     static boolean checkSortedJaggedArray(int[][] jaggedArray, Comparator<int[]> comparator) {
+        if (jaggedArray == null || jaggedArray.length <= 1) {
+            return true;
+        }
         for (int i = 1; i < jaggedArray.length; i++) {
-            if (comparator.compare(jaggedArray[i], jaggedArray[i - 1]) < 0) {
+            if (comparator.compare(jaggedArray[i - 1], jaggedArray[i]) > 0) {
                 return false;
             }
         }

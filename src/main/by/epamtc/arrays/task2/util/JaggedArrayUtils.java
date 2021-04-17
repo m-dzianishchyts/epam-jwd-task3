@@ -22,7 +22,7 @@ public final class JaggedArrayUtils {
             int max2 = row2[optionalIndexOfMax2.getAsInt()];
             return Integer.compare(max1, max2);
         } else {
-            return compareProbableEmptyRows(row1, row2);
+            return compareProbablyEmptyRows(row1, row2);
         }
     };
     public static final Comparator<int[]> MIN_ELEMENT_COMPARATOR = (row1, row2) -> {
@@ -33,21 +33,21 @@ public final class JaggedArrayUtils {
             int min2 = row2[optionalIndexOfMin2.getAsInt()];
             return Integer.compare(min1, min2);
         } else {
-            return compareProbableEmptyRows(row1, row2);
+            return compareProbablyEmptyRows(row1, row2);
         }
     };
 
     private JaggedArrayUtils() {
     }
 
-    private static int compareProbableEmptyRows(int[] row1, int[] row2) {
-        if (row1 == null || row2 == null) {
-            return compareNullableRows(row1, row2);
+    private static int compareProbablyEmptyRows(int[] probablyEmptyRow1, int[] probablyEmptyRow2) {
+        if (probablyEmptyRow1 == null || probablyEmptyRow2 == null) {
+            return compareNullableRows(probablyEmptyRow1, probablyEmptyRow2);
         }
-        if (row2.length == 0) {
-            return 1;
+        if (probablyEmptyRow1.length == 0) {
+            return -1;
         }
-        return -1;
+        return 1;
     }
 
     private static int compareNullableRows(int[] nullableRow1, int[] nullableRow2) {
