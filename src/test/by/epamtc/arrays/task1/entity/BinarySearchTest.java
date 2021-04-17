@@ -29,7 +29,7 @@ public class BinarySearchTest {
     void findViaBinarySearch() {
         int minPossibleValue = (int) -Math.pow(2, 10);
         int maxPossibleValue = (int) Math.pow(2, 10);
-        int valueToFind = RandomUtils.randomInt(minPossibleValue, maxPossibleValue);
+        int valueToFind = RandomUtils.gengerateRandomInt(minPossibleValue, maxPossibleValue);
         int indexOfValue = array.findViaBinarySearch(valueToFind);
         int expectedIndexOfValue = Arrays.binarySearch(array.getContent(), valueToFind);
         assertEquals(expectedIndexOfValue, indexOfValue);

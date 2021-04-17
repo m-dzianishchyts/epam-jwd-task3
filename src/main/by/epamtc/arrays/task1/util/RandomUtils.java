@@ -5,7 +5,7 @@ public final class RandomUtils {
     private RandomUtils() {
     }
 
-    public static int randomInt(int minValue, int maxValue) {
+    public static int gengerateRandomInt(int minValue, int maxValue) {
         int randomInt = (int) (Math.random() * (maxValue - minValue) + minValue);
         return randomInt;
     }

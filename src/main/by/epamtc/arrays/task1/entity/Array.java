@@ -68,7 +68,6 @@ public class Array implements Comparable<Array> {
         if (!file.canRead()) {
             throw new InvalidArgumentException("Not enough permissions to read file.");
         }
-
         List<Integer> integerList = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             while (reader.ready()) {
@@ -81,7 +80,6 @@ public class Array implements Comparable<Array> {
         } catch (IOException e) {
             throw new IncompatibleStateException("An error occurred while reading from file.", e);
         }
-
         initFromCollection(integerList);
     }
 
@@ -112,7 +110,7 @@ public class Array implements Comparable<Array> {
 
     public void initByRandomValues(int minValue, int maxValue) {
         for (int i = 0; i < content.length; i++) {
-            content[i] = RandomUtils.randomInt(minValue, maxValue);
+            content[i] = RandomUtils.gengerateRandomInt(minValue, maxValue);
         }
     }
 
@@ -141,7 +139,7 @@ public class Array implements Comparable<Array> {
     public String toString() {
         StringBuilder builder = new StringBuilder(getClass().getSimpleName()).append("@[");
         if (content.length == 0) {
-            builder.append("[]");
+            builder.append("]");
         } else {
             int i = 0;
             while (true) {

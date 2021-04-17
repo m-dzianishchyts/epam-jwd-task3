@@ -28,7 +28,7 @@ public class SortingAlgorithmsTest {
         int maxInitialValue = (int) Math.pow(2, 10);
         initialArrayContent = new int[arraySize];
         for (int i = 0; i < initialArrayContent.length; i++) {
-            initialArrayContent[i] = RandomUtils.randomInt(minInitialValue, maxInitialValue);
+            initialArrayContent[i] = RandomUtils.gengerateRandomInt(minInitialValue, maxInitialValue);
         }
         array = new Array(Arrays.copyOf(initialArrayContent, initialArrayContent.length));
     }
